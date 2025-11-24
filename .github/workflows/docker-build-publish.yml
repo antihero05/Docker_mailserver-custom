@@ -27,4 +27,4 @@ jobs:
           context: .
           platforms: linux/arm64,linux/amd64
           push: true
-          tags: antihero05/bodycomposition-custom:latest
+          tags: antihero05/mailserver-custom:latest
