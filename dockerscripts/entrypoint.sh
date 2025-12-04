@@ -3,6 +3,7 @@ set -e
 
 # Ensure LMTP directory exists
 mkdir -p /var/spool/postfix/private
+chown postfix:postfix /var/spool/postfix/private
 
 # Start rsyslog
 rsyslogd -n &
@@ -21,3 +22,4 @@ wait -n $RSYSLOG_PID $POSTFIX_PID $DOVECOT_PID
 
 
 exit $?
+
