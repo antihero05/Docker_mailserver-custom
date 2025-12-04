@@ -15,7 +15,8 @@ RUN apt-get update && \
         dovecot-imapd \
         dovecot-pop3d \
         dovecot-lmtpd \
-        dovecot-mysql \
+        dovecot-sieve \
+        dovecot-managesieved \
         libsasl2-modules \
         rsyslog \
         netcat-openbsd \
@@ -25,7 +26,7 @@ RUN apt-get update && \
 # Add dovecot mailbox user
 RUN groupadd -g 1000 vmail && \
     useradd -u 1000 -s /usr/sbin/nologin -g vmail vmail
-
+ 
 # Logging symlinks
 RUN mkdir -p /var/log/mail && \
     touch /var/log/mail.log /var/log/dovecot.log && \
@@ -50,6 +51,5 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
         test -S /var/spool/postfix/private/dovecot-lmtp && \
         nc -U /var/spool/postfix/private/dovecot-lmtp < /dev/null; \
     if [ $$? -ne 0 ]; then exit 1; fi
-
 
 ENTRYPOINT ["/entrypoint.sh"]
