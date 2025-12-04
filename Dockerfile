@@ -15,6 +15,7 @@ RUN apt-get update && \
         dovecot-imapd \
         dovecot-pop3d \
         dovecot-lmtpd \
+        dovecot-mysql \
         dovecot-sieve \
         dovecot-managesieved \
         libsasl2-modules \
