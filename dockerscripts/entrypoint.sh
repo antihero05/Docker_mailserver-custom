@@ -2,6 +2,7 @@
 set -e
 
 # Ensure LMTP directory exists
+mkdir -p /var/spool/postfix/private
 
 # Start rsyslog
 rsyslogd -n &
@@ -17,5 +18,6 @@ DOVECOT_PID=$!
 
 # Wait for any process to exit
 wait -n $RSYSLOG_PID $POSTFIX_PID $DOVECOT_PID
+
 
 exit $?
