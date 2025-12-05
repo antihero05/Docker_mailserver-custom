@@ -50,7 +50,8 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
     CMD nc -z localhost 25 && \
         nc -z localhost 143 && \
         test -S /var/spool/postfix/private/dovecot-lmtp && \
-        nc -U /var/spool/postfix/private/dovecot-lmtp < /dev/null; \
+        nc -U -z /var/spool/postfix/private/dovecot-lmtp < /dev/null; \
     if [ $$? -ne 0 ]; then exit 1; fi
 
 ENTRYPOINT ["/entrypoint.sh"]
+
