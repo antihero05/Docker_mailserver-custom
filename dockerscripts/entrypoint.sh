@@ -5,6 +5,13 @@ set -e
 mkdir -p /var/spool/postfix/private
 chown postfix:postfix /var/spool/postfix/private
 
+# Run logrotate every hour
+while true; do
+    logrotate /etc/logrotate.conf
+    sleep 3600
+done &
+LOGROTATE_PID=$!
+
 # Start rsyslog
 rsyslogd -n &
 RSYSLOG_PID=$!
@@ -20,6 +27,4 @@ DOVECOT_PID=$!
 # Wait for any process to exit
 wait -n $RSYSLOG_PID $POSTFIX_PID $DOVECOT_PID
 
-
 exit $?
-
