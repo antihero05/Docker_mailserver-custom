@@ -1,0 +1,12 @@
+/var/log/mail.log /var/log/mail.err {
+    daily
+    rotate 14
+    missingok
+    notifempty
+    compress
+    delaycompress
+    sharedscripts
+    postrotate
+        /usr/lib/rsyslog/rsyslog-rotate || true
+    endscript
+}
