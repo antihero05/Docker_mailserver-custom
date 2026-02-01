@@ -39,6 +39,7 @@ RUN mkdir -p /var/spool/postfix/private && \
 RUN mkdir -p /var/log/mail && \
     touch /var/log/mail.log /var/log/mail.err /var/log/dovecot.log && \
     chmod 0644 /var/log/mail.log /var/log/mail.err /var/log/dovecot.log
+RUN rm -rf /etc/rsyslog.d/*
 RUN printf "module(load=\"imuxsock\")\nmail.* -/var/log/mail.log\n*.* action(type=\"omfile\" file=\"/dev/stdout\")\n" \
     > /etc/rsyslog.conf
 
@@ -60,3 +61,4 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
     if [ $$? -ne 0 ]; then exit 1; fi
 
 ENTRYPOINT ["/entrypoint.sh"]
+
