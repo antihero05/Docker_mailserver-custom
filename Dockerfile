@@ -50,7 +50,7 @@ COPY logrotate-mail /etc/logrotate.d/mail
 COPY dockerscripts/ /
 RUN chmod +x /entrypoint.sh && sed -i 's/\r$//' /entrypoint.sh
 
-EXPOSE 25 587 143 993 995
+EXPOSE 25 465 587 143 993 110 995
 
 # HEALTHCHECK (Postfix + Dovecot + LMTP)
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
@@ -61,4 +61,5 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
     if [ $$? -ne 0 ]; then exit 1; fi
 
 ENTRYPOINT ["/entrypoint.sh"]
+
 
