@@ -48,6 +48,10 @@ mail.err -/var/log/mail.err\n\
     > /etc/rsyslog.conf
 
 #Logfile rotation
+RUN sed -i '/^[[:space:]]*\/var\/log\/mail\.log$/d; \
+            /^[[:space:]]*\/var\/log\/mail\.err$/d; \
+            /^[[:space:]]*\/var\/log\/dovecot\.log$/d' \
+    /etc/logrotate.d/rsyslog
 COPY logrotate-mail /etc/logrotate.d/mail
 
 # Add entrypoint script
