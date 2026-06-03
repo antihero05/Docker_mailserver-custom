@@ -1,4 +1,4 @@
-/var/log/mail.log /var/log/mail.err {
+/var/log/mail.log /var/log/mail.err /var/log/dovecot.log {
     daily
     rotate 14
     missingok
