@@ -9,6 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        tini \
         postfix \
         postfix-mysql \
         dovecot-core \
@@ -40,7 +41,10 @@ RUN mkdir -p /var/log/mail && \
     touch /var/log/mail.log /var/log/mail.err /var/log/dovecot.log && \
     chmod 0644 /var/log/mail.log /var/log/mail.err /var/log/dovecot.log
 RUN rm -rf /etc/rsyslog.d/*
-RUN printf "module(load=\"imuxsock\")\nmail.* -/var/log/mail.log\n*.* action(type=\"omfile\" file=\"/dev/stdout\")\n" \
+RUN printf "module(load=\"imuxsock\")\n\
+mail.* -/var/log/mail.log\n\
+mail.err -/var/log/mail.err\n\
+*.* action(type=\"omfile\" file=\"/dev/stdout\")\n" \
     > /etc/rsyslog.conf
 
 #Logfile rotation
@@ -60,6 +64,4 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
         nc -U -z /var/spool/postfix/private/dovecot-lmtp < /dev/null; \
     if [ $$? -ne 0 ]; then exit 1; fi
 
-ENTRYPOINT ["/entrypoint.sh"]
-
-
+ENTRYPOINT ["/usr/bin/tini", "--", "/entrypoint.sh"]
