@@ -7,6 +7,6 @@
     delaycompress
     sharedscripts
     postrotate
-        /usr/lib/rsyslog/rsyslog-rotate || true
+        kill -HUP $(cat /run/rsyslogd.pid 2>/dev/null) 2>/dev/null || true
     endscript
 }
